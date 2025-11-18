@@ -1,5 +1,13 @@
 # Test Repo
 
+## Uptime 2
+
+[![Uptime](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/fr0st-iwnl/status.fr0st.xyz/HEAD/api/voux-fr0st-xyz/uptime.json)](https://status.fr0st.xyz/history/voux-fr0st-xyz)
+[![Response Time](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/fr0st-iwnl/status.fr0st.xyz/HEAD/api/voux-fr0st-xyz/response-time.json)](https://status.fr0st.xyz/history/voux-fr0st-xyz)
+
+
+
+
 
 ## Uptime
 
