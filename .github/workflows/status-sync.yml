@@ -17,8 +17,35 @@ jobs:
       run: |
         curl -s https://raw.githubusercontent.com/fr0st-iwnl/status.fr0st.xyz/HEAD/README.md > upptime_readme.md
 
-        # extract the section containing voux.fr0st.xyz
-        awk '/voux\.fr0st\.xyz/{flag=1} /<\/details>/{if(flag){print; exit}} flag' upptime_readme.md > extracted_status.md
+        # extract the table header + the Voux row
+        awk '
+          BEGIN { header_found=0; row_found=0 }
+
+          # table header
+          /^\| URL \|/ {
+            print
+            header_found=1
+            next
+          }
+
+          # separator row
+          header_found && /^\| ---/ {
+            print
+            next
+          }
+
+          # start of Voux row
+          /voux\.fr0st\.xyz/ {
+            row_found=1
+          }
+
+          # print Voux row until </details>
+          header_found && row_found {
+            print
+            if (/<\/details>/) exit
+            next
+          }
+        ' upptime_readme.md > extracted_status.md
 
     - name: Inject into README
       run: |
@@ -26,11 +53,13 @@ jobs:
           /<!-- STATUS-START -->/ {
             print
             while (getline < "extracted_status.md") print
-            p=1
+            inside=1
             next
           }
-          /<!-- STATUS-END -->/ {p=0}
-          !p
+          /<!-- STATUS-END -->/ {
+            inside=0
+          }
+          !inside
         ' README.md > README.new
 
         mv README.new README.md
